@@ -3,7 +3,7 @@ from tkinter import ttk
 from time import sleep
 from random import randint
 
-punkty = 20000
+punkty = 0
 punktyplus = 1
 
 root = tk.Tk()
@@ -12,10 +12,12 @@ root.geometry('700x350')
 root.config(bg='#0f1f4a')
 root.title('Jajeczny Clicker')
 
+
 #Powerupy
 wscieklakura = False
 duck = False
 melisa = False
+kura = False
 
 def main():
     global punkty, eggbutton, ramka1, ramka2, ramka3, ramka4, punktyplus
@@ -50,6 +52,11 @@ def main():
         wscieklakura_Description.place(x=405, y=65)
     else:
         pass
+    if kura:
+        punktyplus = punktyplus * 3
+        spokojnakuraimg.place(x=325, y=40)
+        spokojnakuralabel.place(x=405, y=45)
+        spokojnakuradescription.place(x=405, y=65)
 
     if duck:
         punktyplus = punktyplus + randint(1, 5)
@@ -63,24 +70,28 @@ def main():
         melisaimglabel.place(x=325, y=200)
         melisalabel.place(x=405, y=205)
         melisadescription.place(x=405, y=225)
+    
+    if melisa == 'GONE':
+        melisaimglabel.place_forget()
+        melisalabel.place_forget()
+        melisadescription.place_forget()
 
+    if melisa and wscieklakura:
+        spokojnakurabutton.place(x=540, y=50)
     #Place
     ramka1.place(x=310)
     ramka2.place(x=310, y=340)
     ramka3.place(x=690)
     ramka4.place(x=320)
-
     mexicanborder.place(x=300)
     mojeszpargaly.place(x=325, y=20)
-
     frame.focus()
     frame.place(x=16, y=20)
-
     eggbutton.place(x=65, y=65)
     sklepbutton.place(x=211, y=300)
     pointbox.place(x=14, y=300)
 
-mainbutton = ttk.Button(root, text='Powrót', command=main)
+mainbutton = ttk.Button(root, text='Powrot', command=main)
 
 def Powerupbuykura():
     global punkty, kurabutton, wscieklakura
@@ -100,6 +111,14 @@ def Powerupbuymelisa():
     punkty = punkty - 1500
     melisabutton.place_forget()
 
+def Powerupbuyspokojnakura():
+    global punkty, kura, spokojnakurabutton, wscieklakura, melisa
+    melisa = 'GONE'
+    wscieklakura = False
+    kura = True
+    spokojnakurabutton.place_forget()
+    main()
+
 
 def sklep():
     global punkty
@@ -116,6 +135,9 @@ def sklep():
     ramka4.place_forget()
     pointbox.place_forget()
     mainbutton.place_forget()
+    spokojnakuradescription.place_forget()
+    spokojnakuraimg.place_forget()
+    spokojnakuralabel.place_forget()
     
 
     #wscieklakura
@@ -139,10 +161,10 @@ def sklep():
     mainbutton.place(x=211, y=460)
     
     #wscieklakura button
-    if punkty >= 100 and wscieklakura == False:
+    if punkty >= 100 and wscieklakura == False and kura == False:
         kurabutton.place(x=500, y=20)
     else:
-        if wscieklakura == False:
+        if wscieklakura == False and kura == False:
             ZaGierkaToBylo.place(x=500, y=20)
         else:
             RzadyPisu.place(x=500, y=20)
@@ -164,68 +186,68 @@ def sklep():
             ZaGierkaToBylo3.place(x=500, y=180)
         else:
             RzadyPisu3.place(x=500, y=180)
+    
+    if melisa == 'GONE':
+        melisabutton.place_forget()
+        ZaGierkaToBylo3.place_forget()
+        RzadyPisu3.place_forget()
+        melisaimglabel.place_forget()
+        melisadescription.place_forget()
+        melisalabel.place_forget()
 
 def pointup(numer):
     global punkty
-    punkty += numer
-    pointbox.config(text=f'Masz {str(punkty)} punktów')
+    punkty = punkty + numer
+    pointbox.config(text='masz ' + str(punkty) + ' punktow')
 
 #Fap Folder
-wscieklakura_img = tk.PhotoImage(file='assets/wscieklakura.png')
-
-duckphoto =tk.PhotoImage(file='assets/kaczka.png')
+wscieklakura_img = tk.PhotoImage(file='rsz_1wscieklakura.png')
+duckphoto =tk.PhotoImage(file='kaczka.png')
 duckimglabel = tk.Label(root, image=duckphoto)
-
-melisaphoto = tk.PhotoImage(file='assets/meliska-20-torebek-po-2-g.png')
+melisaphoto = tk.PhotoImage(file='melisa-20-torebek-po-2-g.png')
 melisaimglabel = tk.Label(root, image=melisaphoto)
 
-kuraimg = tk.Label(image=wscieklakura_img)
 
 #wariaty
+kuraimg = tk.Label(image=wscieklakura_img)
+sklepbutton = ttk.Button(root, text='Sklep', command=sklep)
 frame = tk.Frame(height=270, width=270, background='#112457')
 blank = tk.Label(root, text="", background='#0f1f4a')
-
-sklepbutton = ttk.Button(root, text='Sklep', command=sklep)
-pointbox = tk.Label(root, text=f'Masz {str(punkty)} punktów', font='Impact',
-                    
+pointbox = tk.Label(root, text="Masz " + str(punkty) + ' punktów', font='Impact',
 foreground='#FFFFFF', background='#0f1f4a')
-
-eggimg = tk.PhotoImage(file='assets/jajeczny.png')
+eggimg = tk.PhotoImage(file='Egg.jpg')
 eggbutton = ttk.Button(root, image=eggimg, command=lambda: pointup(punktyplus))
-
 bigarial = 'Arial', 12
 smallarial = 'Arial', 10
-
 mojeszpargaly = ttk.Label(root, text='Moje szpargały:', background='#0f1f4a', font=bigarial, foreground='#FFFFFF')
 mexicanborder = tk.Frame(root, width=10, height=350, background='#00030a')
-
 wscieklakura_Label = tk.Label(root, text="Wsciekla kura", font=bigarial, background='#0f1f4a', foreground='#FFFFFF')
 wscieklakura_Description = tk.Label(root, text="Metal jest super, daje 3 pkt na klikniecie. (koszt: 100pkt)", font=smallarial, background='#0f1f4a', foreground='#FFFFFF')
-
 PowerButtonkura = tk.Button(root, text='KUP', command=Powerupbuykura)
 impact = 'Impact', 12
 ZaGierkaToBylo = tk.Label(root, text='NIE STAC CIE BIEDAKU', font=impact, foreground='#FFFFFF', background='#0f1f4a')
 kurabutton = tk.Button(root, text='KUP', command=Powerupbuykura)
-
 RzadyPisu = tk.Label(root, background='#0f1f4a', foreground='#FFFFFF', text='Posiadane', font=bigarial)
-
 ramka1 = tk.Frame(root, background='#112457', height=350, width=10)
 ramka2 = tk.Frame(root, background='#112457', height=10, width=400)
 ramka3 = tk.Frame(root, background='#112457', height=350, width=10)
 ramka4 = tk.Frame(root, background='#112457', height=10, width=400)
-
 ducklabel = tk.Label(root, text='Kaczka Malgorzatka', background='#0f1f4a', foreground='#FFFFFF', font=bigarial)
 duckdescription = tk.Label(root, text='KWAK! daje od 1-5 punktow plus (koszt: 500pkt)', background='#0f1f4a', foreground='#FFFFFF', font=smallarial)
 duckbutton = tk.Button(root, text='KUP', command=Powerupbuyduck)
-
 ZaGierkaToBylo2 = tk.Label(root, text='NIE STAC CIE BIEDAKU', font=impact, foreground='#FFFFFF', background='#0f1f4a')
 RzadyPisu2 = tk.Label(root, background='#0f1f4a', foreground='#FFFFFF', text='Posiadane', font=bigarial)
 ZaGierkaToBylo3 = tk.Label(root, text='NIE STAC CIE BIEDAKU', font=impact, foreground='#FFFFFF', background='#0f1f4a')
 RzadyPisu3 = tk.Label(root, background='#0f1f4a', foreground='#FFFFFF', text='Posiadane', font=bigarial)
-
 melisalabel = tk.Label(root, foreground='#FFFFFF', background='#0f1f4a', text='Melisa', font=bigarial)
 melisadescription = tk.Label(root, foreground='#FFFFFF', background='#0f1f4a', text='Herbatka na uspokojenie (koszt: 1500pkt)', font=smallarial)
 melisabutton = tk.Button(root, text='KUP', command=Powerupbuymelisa)
+spokojnakurabutton = tk.Button(root, text='Daj kurze melise', command=Powerupbuyspokojnakura)
+spokojnakuralabel = tk.Label(root, foreground='#FFFFFF', background='#0f1f4a', text='Spokojna kura', font=bigarial)
+spokojnakuradescription = tk.Label(root, foreground='#FFFFFF', background='#0f1f4a', text='PKT X 3, METAL JEST DO DUPY', font=smallarial)
+spokojnakuraphoto = tk.PhotoImage(file='kura.png')
+spokojnakuraimg = tk.Label(root, image=spokojnakuraphoto)
+
 
 if __name__ == "__main__":
     main()
