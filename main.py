@@ -201,10 +201,10 @@ def pointup(numer):
     pointbox.config(text='masz ' + str(punkty) + ' punktow')
 
 #Fap Folder
-wscieklakura_img = tk.PhotoImage(file='rsz_1wscieklakura.png')
+wscieklakura_img = tk.PhotoImage(file='wscieklakura.png')
 duckphoto =tk.PhotoImage(file='kaczka.png')
 duckimglabel = tk.Label(root, image=duckphoto)
-melisaphoto = tk.PhotoImage(file='melisa-20-torebek-po-2-g.png')
+melisaphoto = tk.PhotoImage(file='meliska-20-torebek-po-2-g.png')
 melisaimglabel = tk.Label(root, image=melisaphoto)
 
 
@@ -215,7 +215,7 @@ frame = tk.Frame(height=270, width=270, background='#112457')
 blank = tk.Label(root, text="", background='#0f1f4a')
 pointbox = tk.Label(root, text="Masz " + str(punkty) + ' punktów', font='Impact',
 foreground='#FFFFFF', background='#0f1f4a')
-eggimg = tk.PhotoImage(file='Egg.jpg')
+eggimg = tk.PhotoImage(file='jajeczny.png')
 eggbutton = ttk.Button(root, image=eggimg, command=lambda: pointup(punktyplus))
 bigarial = 'Arial', 12
 smallarial = 'Arial', 10
